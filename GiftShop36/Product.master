@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Product.master.cs" Inherits="Product" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet"/>
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <style>
+        .backgroundcolor{
+            background-color:ivory;
+        }
+        .navbarcolor{
+            background-color:paleturquoise;
+        }
+
+
+    </style>
+
+</head>
+<body class="backgroundcolor">
+    <form id="form1" runat="server">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a runat="server" href="~/Admin/addCategory.aspx">Add Category</a></li>
+                                <li><a runat="server" href="~/Admin/addBrand.aspx">Add Brand</a></li>
+                                <li><a runat="server" href="~/Admin/addProduct.aspx">Add Product</a></li>
+                                <li><a runat="server" href="~/Customer/ProductList.aspx">Buy Product</a></li>
+                                <li><a runat="server" href="~/Admin/AdminDashBoard.aspx">Admin Dashboard</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+
+            </asp:ContentPlaceHolder>
+   
+    </form>
+</body>
+</html>

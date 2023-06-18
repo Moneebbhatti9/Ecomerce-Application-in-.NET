@@ -1,0 +1,732 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GiftShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AddToCartTable">
+          <Key>
+            <PropertyRef Name="tempId" />
+          </Key>
+          <Property Name="tempId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserUniqueKey" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="created_at" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BrandTable">
+          <Key>
+            <PropertyRef Name="BrandID" />
+          </Key>
+          <Property Name="BrandID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrandName" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoryTable">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MainOrderTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="phoneNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="createdAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDetailTable">
+          <Key>
+            <PropertyRef Name="tempId" />
+          </Key>
+          <Property Name="tempId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ProductPrice" Type="money" Nullable="false" />
+          <Property Name="useruniqueID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductTable">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductPrice" Type="money" Nullable="false" />
+          <Property Name="ProductQuantity" Type="int" Nullable="false" />
+          <Property Name="ProductImage" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="WatchDiameter" Type="int" />
+          <Property Name="WatchBandSize" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Fragnance" Type="varchar" MaxLength="100" />
+          <Property Name="RingSize" Type="int" />
+          <Property Name="RingWidth" Type="int" />
+          <Property Name="RingColor" Type="varchar" MaxLength="50" />
+          <Property Name="SubCategoryID" Type="int" />
+          <Property Name="BrandID" Type="int" />
+          <Property Name="CategoryID" Type="int" />
+          <Property Name="watchBandColor" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="userTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AddToCartTable_ProductTable">
+          <End Role="ProductTable" Type="Self.ProductTable" Multiplicity="0..1" />
+          <End Role="AddToCartTable" Type="Self.AddToCartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductTable">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="AddToCartTable">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductTable_BrandTable">
+          <End Role="BrandTable" Type="Self.BrandTable" Multiplicity="0..1" />
+          <End Role="ProductTable" Type="Self.ProductTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BrandTable">
+              <PropertyRef Name="BrandID" />
+            </Principal>
+            <Dependent Role="ProductTable">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductTable_CategoryTable">
+          <End Role="CategoryTable" Type="Self.CategoryTable" Multiplicity="0..1" />
+          <End Role="ProductTable" Type="Self.ProductTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryTable">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="ProductTable">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddBrand" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="AddCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="deleteBrand" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="brandId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CategoryId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="prdID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="deleteProductFromCart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="productId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DoLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="EmailExist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="FilterProductbyBrand" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BrandName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="getBrand" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getCartProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uniqueKey" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="getCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getProductList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Productfilter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BrandID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="GiftShopModelStoreContainer">
+          <EntitySet Name="AddToCartTable" EntityType="Self.AddToCartTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BrandTable" EntityType="Self.BrandTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryTable" EntityType="Self.CategoryTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MainOrderTable" EntityType="Self.MainOrderTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetailTable" EntityType="Self.OrderDetailTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductTable" EntityType="Self.ProductTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userTable" EntityType="Self.userTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AddToCartTable_ProductTable" Association="Self.FK_AddToCartTable_ProductTable">
+            <End Role="ProductTable" EntitySet="ProductTable" />
+            <End Role="AddToCartTable" EntitySet="AddToCartTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductTable_BrandTable" Association="Self.FK_ProductTable_BrandTable">
+            <End Role="BrandTable" EntitySet="BrandTable" />
+            <End Role="ProductTable" EntitySet="ProductTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductTable_CategoryTable" Association="Self.FK_ProductTable_CategoryTable">
+            <End Role="CategoryTable" EntitySet="CategoryTable" />
+            <End Role="ProductTable" EntitySet="ProductTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GiftShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AddToCartTable">
+          <Key>
+            <PropertyRef Name="tempId" />
+          </Key>
+          <Property Name="tempId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserUniqueKey" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ProductTable" Relationship="Self.FK_AddToCartTable_ProductTable" FromRole="AddToCartTable" ToRole="ProductTable" />
+        </EntityType>
+        <EntityType Name="BrandTable">
+          <Key>
+            <PropertyRef Name="BrandID" />
+          </Key>
+          <Property Name="BrandID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrandName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ProductTables" Relationship="Self.FK_ProductTable_BrandTable" FromRole="BrandTable" ToRole="ProductTable" />
+        </EntityType>
+        <EntityType Name="CategoryTable">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ProductTables" Relationship="Self.FK_ProductTable_CategoryTable" FromRole="CategoryTable" ToRole="ProductTable" />
+        </EntityType>
+        <EntityType Name="MainOrderTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createdAt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="OrderDetailTable">
+          <Key>
+            <PropertyRef Name="tempId" />
+          </Key>
+          <Property Name="tempId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ProductPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="useruniqueID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductTable">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ProductQuantity" Type="Int32" Nullable="false" />
+          <Property Name="ProductImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="WatchDiameter" Type="Int32" />
+          <Property Name="WatchBandSize" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fragnance" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RingSize" Type="Int32" />
+          <Property Name="RingWidth" Type="Int32" />
+          <Property Name="RingColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SubCategoryID" Type="Int32" />
+          <Property Name="BrandID" Type="Int32" />
+          <Property Name="CategoryID" Type="Int32" />
+          <Property Name="watchBandColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AddToCartTables" Relationship="Self.FK_AddToCartTable_ProductTable" FromRole="ProductTable" ToRole="AddToCartTable" />
+          <NavigationProperty Name="BrandTable" Relationship="Self.FK_ProductTable_BrandTable" FromRole="ProductTable" ToRole="BrandTable" />
+          <NavigationProperty Name="CategoryTable" Relationship="Self.FK_ProductTable_CategoryTable" FromRole="ProductTable" ToRole="CategoryTable" />
+        </EntityType>
+        <EntityType Name="userTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AddToCartTable_ProductTable">
+          <End Role="ProductTable" Type="Self.ProductTable" Multiplicity="0..1" />
+          <End Role="AddToCartTable" Type="Self.AddToCartTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductTable">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="AddToCartTable">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductTable_BrandTable">
+          <End Role="BrandTable" Type="Self.BrandTable" Multiplicity="0..1" />
+          <End Role="ProductTable" Type="Self.ProductTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BrandTable">
+              <PropertyRef Name="BrandID" />
+            </Principal>
+            <Dependent Role="ProductTable">
+              <PropertyRef Name="BrandID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductTable_CategoryTable">
+          <End Role="CategoryTable" Type="Self.CategoryTable" Multiplicity="0..1" />
+          <End Role="ProductTable" Type="Self.ProductTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryTable">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="ProductTable">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GiftShopEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AddToCartTables" EntityType="Self.AddToCartTable" />
+          <EntitySet Name="BrandTables" EntityType="Self.BrandTable" />
+          <EntitySet Name="CategoryTables" EntityType="Self.CategoryTable" />
+          <EntitySet Name="MainOrderTables" EntityType="Self.MainOrderTable" />
+          <EntitySet Name="OrderDetailTables" EntityType="Self.OrderDetailTable" />
+          <EntitySet Name="ProductTables" EntityType="Self.ProductTable" />
+          <EntitySet Name="userTables" EntityType="Self.userTable" />
+          <AssociationSet Name="FK_AddToCartTable_ProductTable" Association="Self.FK_AddToCartTable_ProductTable">
+            <End Role="ProductTable" EntitySet="ProductTables" />
+            <End Role="AddToCartTable" EntitySet="AddToCartTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductTable_BrandTable" Association="Self.FK_ProductTable_BrandTable">
+            <End Role="BrandTable" EntitySet="BrandTables" />
+            <End Role="ProductTable" EntitySet="ProductTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductTable_CategoryTable" Association="Self.FK_ProductTable_CategoryTable">
+            <End Role="CategoryTable" EntitySet="CategoryTables" />
+            <End Role="ProductTable" EntitySet="ProductTables" />
+          </AssociationSet>
+          <FunctionImport Name="AddBrand" ReturnType="Collection(GiftShopModel.AddBrand_Result)" />
+          <FunctionImport Name="AddCategory" ReturnType="Collection(GiftShopModel.AddCategory_Result)" />
+          <FunctionImport Name="deleteBrand">
+          <Parameter Name="brandId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteCategory">
+          <Parameter Name="CategoryId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteProduct">
+          <Parameter Name="prdID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="deleteProductFromCart">
+          <Parameter Name="productId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUsers">
+          <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DoLogin" ReturnType="Collection(GiftShopModel.DoLogin_Result)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EmailExist" ReturnType="Collection(String)">
+          <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="FilterProductbyBrand" ReturnType="Collection(GiftShopModel.FilterProductbyBrand_Result)">
+          <Parameter Name="BrandName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="getBrand" ReturnType="Collection(GiftShopModel.getBrand_Result)" />
+          <FunctionImport Name="getCartProduct" ReturnType="Collection(GiftShopModel.getCartProduct_Result)">
+          <Parameter Name="uniqueKey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="getCategory" ReturnType="Collection(GiftShopModel.getCategory_Result)" />
+          <FunctionImport Name="getProductList" ReturnType="Collection(GiftShopModel.getProductList_Result)" />
+          <FunctionImport Name="getUsers" ReturnType="Collection(GiftShopModel.getUsers_Result)" />
+          <FunctionImport Name="Productfilter" ReturnType="Collection(GiftShopModel.Productfilter_Result)">
+            <Parameter Name="BrandID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="AddBrand_Result">
+          <Property Type="Int32" Name="BrandID" Nullable="false" />
+          <Property Type="String" Name="BrandName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="AddCategory_Result">
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <Property Type="String" Name="CategoryName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="DoLogin_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="FilterProductbyBrand_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="ProductPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="ProductQuantity" Nullable="false" />
+          <Property Type="String" Name="ProductImage" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="WatchDiameter" Nullable="true" />
+          <Property Type="Int32" Name="WatchBandSize" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Fragnance" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RingSize" Nullable="true" />
+          <Property Type="Int32" Name="RingWidth" Nullable="true" />
+          <Property Type="String" Name="RingColor" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SubCategoryID" Nullable="true" />
+          <Property Type="Int32" Name="BrandID" Nullable="true" />
+          <Property Type="Int32" Name="CategoryID" Nullable="true" />
+          <Property Type="String" Name="watchBandColor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BrandName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="getBrand_Result">
+          <Property Type="Int32" Name="BrandID" Nullable="false" />
+          <Property Type="String" Name="BrandName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="getCartProduct_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="ProductPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="ProductQuantity" Nullable="false" />
+          <Property Type="String" Name="ProductImage" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="WatchDiameter" Nullable="true" />
+          <Property Type="Int32" Name="WatchBandSize" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Fragnance" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RingSize" Nullable="true" />
+          <Property Type="Int32" Name="RingWidth" Nullable="true" />
+          <Property Type="String" Name="RingColor" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SubCategoryID" Nullable="true" />
+          <Property Type="Int32" Name="BrandID" Nullable="true" />
+          <Property Type="Int32" Name="CategoryID" Nullable="true" />
+          <Property Type="String" Name="watchBandColor" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="getCategory_Result">
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <Property Type="String" Name="CategoryName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="getProductList_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="ProductPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="ProductQuantity" Nullable="false" />
+          <Property Type="String" Name="ProductImage" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="WatchDiameter" Nullable="true" />
+          <Property Type="Int32" Name="WatchBandSize" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Fragnance" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RingSize" Nullable="true" />
+          <Property Type="Int32" Name="RingWidth" Nullable="true" />
+          <Property Type="String" Name="RingColor" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SubCategoryID" Nullable="true" />
+          <Property Type="Int32" Name="BrandID" Nullable="true" />
+          <Property Type="Int32" Name="CategoryID" Nullable="true" />
+          <Property Type="String" Name="watchBandColor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="brandName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="categoryName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="getUsers_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Productfilter_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="ProductPrice" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="ProductQuantity" Nullable="false" />
+          <Property Type="String" Name="ProductImage" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="WatchDiameter" Nullable="true" />
+          <Property Type="Int32" Name="WatchBandSize" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Fragnance" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RingSize" Nullable="true" />
+          <Property Type="Int32" Name="RingWidth" Nullable="true" />
+          <Property Type="String" Name="RingColor" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SubCategoryID" Nullable="true" />
+          <Property Type="Int32" Name="BrandID" Nullable="true" />
+          <Property Type="Int32" Name="CategoryID" Nullable="true" />
+          <Property Type="String" Name="watchBandColor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BrandName" Nullable="false" MaxLength="30" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GiftShopModelStoreContainer" CdmEntityContainer="GiftShopEntities">
+          <EntitySetMapping Name="AddToCartTables">
+            <EntityTypeMapping TypeName="GiftShopModel.AddToCartTable">
+              <MappingFragment StoreEntitySet="AddToCartTable">
+                <ScalarProperty Name="tempId" ColumnName="tempId" />
+                <ScalarProperty Name="UserUniqueKey" ColumnName="UserUniqueKey" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BrandTables">
+            <EntityTypeMapping TypeName="GiftShopModel.BrandTable">
+              <MappingFragment StoreEntitySet="BrandTable">
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryTables">
+            <EntityTypeMapping TypeName="GiftShopModel.CategoryTable">
+              <MappingFragment StoreEntitySet="CategoryTable">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MainOrderTables">
+            <EntityTypeMapping TypeName="GiftShopModel.MainOrderTable">
+              <MappingFragment StoreEntitySet="MainOrderTable">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="phoneNo" ColumnName="phoneNo" />
+                <ScalarProperty Name="createdAt" ColumnName="createdAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetailTables">
+            <EntityTypeMapping TypeName="GiftShopModel.OrderDetailTable">
+              <MappingFragment StoreEntitySet="OrderDetailTable">
+                <ScalarProperty Name="tempId" ColumnName="tempId" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="useruniqueID" ColumnName="useruniqueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductTables">
+            <EntityTypeMapping TypeName="GiftShopModel.ProductTable">
+              <MappingFragment StoreEntitySet="ProductTable">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="WatchDiameter" ColumnName="WatchDiameter" />
+                <ScalarProperty Name="WatchBandSize" ColumnName="WatchBandSize" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Fragnance" ColumnName="Fragnance" />
+                <ScalarProperty Name="RingSize" ColumnName="RingSize" />
+                <ScalarProperty Name="RingWidth" ColumnName="RingWidth" />
+                <ScalarProperty Name="RingColor" ColumnName="RingColor" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="watchBandColor" ColumnName="watchBandColor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userTables">
+            <EntityTypeMapping TypeName="GiftShopModel.userTable">
+              <MappingFragment StoreEntitySet="userTable">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddBrand" FunctionName="GiftShopModel.Store.AddBrand">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.AddBrand_Result">
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddCategory" FunctionName="GiftShopModel.Store.AddCategory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.AddCategory_Result">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="deleteBrand" FunctionName="GiftShopModel.Store.deleteBrand" />
+          <FunctionImportMapping FunctionImportName="deleteCategory" FunctionName="GiftShopModel.Store.deleteCategory" />
+          <FunctionImportMapping FunctionImportName="deleteProduct" FunctionName="GiftShopModel.Store.deleteProduct" />
+          <FunctionImportMapping FunctionImportName="deleteProductFromCart" FunctionName="GiftShopModel.Store.deleteProductFromCart" />
+          <FunctionImportMapping FunctionImportName="DeleteUsers" FunctionName="GiftShopModel.Store.DeleteUsers" />
+          <FunctionImportMapping FunctionImportName="DoLogin" FunctionName="GiftShopModel.Store.DoLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.DoLogin_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EmailExist" FunctionName="GiftShopModel.Store.EmailExist" />
+          <FunctionImportMapping FunctionImportName="FilterProductbyBrand" FunctionName="GiftShopModel.Store.FilterProductbyBrand">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.FilterProductbyBrand_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="WatchDiameter" ColumnName="WatchDiameter" />
+                <ScalarProperty Name="WatchBandSize" ColumnName="WatchBandSize" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Fragnance" ColumnName="Fragnance" />
+                <ScalarProperty Name="RingSize" ColumnName="RingSize" />
+                <ScalarProperty Name="RingWidth" ColumnName="RingWidth" />
+                <ScalarProperty Name="RingColor" ColumnName="RingColor" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="watchBandColor" ColumnName="watchBandColor" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getBrand" FunctionName="GiftShopModel.Store.getBrand">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.getBrand_Result">
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCartProduct" FunctionName="GiftShopModel.Store.getCartProduct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.getCartProduct_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="WatchDiameter" ColumnName="WatchDiameter" />
+                <ScalarProperty Name="WatchBandSize" ColumnName="WatchBandSize" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Fragnance" ColumnName="Fragnance" />
+                <ScalarProperty Name="RingSize" ColumnName="RingSize" />
+                <ScalarProperty Name="RingWidth" ColumnName="RingWidth" />
+                <ScalarProperty Name="RingColor" ColumnName="RingColor" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="watchBandColor" ColumnName="watchBandColor" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCategory" FunctionName="GiftShopModel.Store.getCategory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.getCategory_Result">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getProductList" FunctionName="GiftShopModel.Store.getProductList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.getProductList_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="WatchDiameter" ColumnName="WatchDiameter" />
+                <ScalarProperty Name="WatchBandSize" ColumnName="WatchBandSize" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Fragnance" ColumnName="Fragnance" />
+                <ScalarProperty Name="RingSize" ColumnName="RingSize" />
+                <ScalarProperty Name="RingWidth" ColumnName="RingWidth" />
+                <ScalarProperty Name="RingColor" ColumnName="RingColor" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="watchBandColor" ColumnName="watchBandColor" />
+                <ScalarProperty Name="brandName" ColumnName="brandName" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getUsers" FunctionName="GiftShopModel.Store.getUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.getUsers_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Productfilter" FunctionName="GiftShopModel.Store.Productfilter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GiftShopModel.Productfilter_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductImage" ColumnName="ProductImage" />
+                <ScalarProperty Name="WatchDiameter" ColumnName="WatchDiameter" />
+                <ScalarProperty Name="WatchBandSize" ColumnName="WatchBandSize" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Fragnance" ColumnName="Fragnance" />
+                <ScalarProperty Name="RingSize" ColumnName="RingSize" />
+                <ScalarProperty Name="RingWidth" ColumnName="RingWidth" />
+                <ScalarProperty Name="RingColor" ColumnName="RingColor" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="watchBandColor" ColumnName="watchBandColor" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
